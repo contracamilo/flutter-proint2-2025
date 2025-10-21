@@ -1,0 +1,76 @@
+name: juania
+description: >
+  JUANIA - Asistente Inteligente para Estudiantes Universitarios.
+  Una aplicación móvil que ayuda a estudiantes a organizar su vida académica.
+
+# Versión de la aplicación
+version: 1.0.0+1
+
+# SDK de Flutter
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+# Dependencias principales (todas gratuitas y open-source)
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI & Material Design
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  
+  # State Management (Provider - ligero y gratuito)
+  provider: ^6.1.1
+  
+  # Navegación
+  go_router: ^13.0.0
+  
+  # Almacenamiento local
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  
+  # HTTP & API calls
+  http: ^1.2.0
+  dio: ^5.4.0
+  
+  # Utilidades
+  intl: ^0.19.0  # Internacionalización y formateo de fechas
+  logger: ^2.0.2  # Logging
+  equatable: ^2.0.5  # Comparación de objetos
+  
+  # Íconos y diseño
+  font_awesome_flutter: ^10.6.0
+  
+  # Variables de entorno
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Linting y análisis de código
+  flutter_lints: ^3.0.1
+  
+  # Generación de código para Hive
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.7
+
+# Configuración de assets
+flutter:
+  uses-material-design: true
+  
+  # Assets de la aplicación
+  assets:
+    - assets/images/
+    - assets/icons/
+    - .env
+  
+  # Fuentes personalizadas (opcional, Google Fonts lo maneja)
+  # fonts:
+  #   - family: CustomFont
+  #     fonts:
+  #       - asset: assets/fonts/CustomFont-Regular.ttf
+  #       - asset: assets/fonts/CustomFont-Bold.ttf
+  #         weight: 700
