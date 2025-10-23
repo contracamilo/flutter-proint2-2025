@@ -27,6 +27,8 @@ class AppConstants {
   static const String prefKeyFirstLaunch = 'first_launch';
   static const String prefKeyUserId = 'user_id';
   static const String prefKeyUserName = 'user_name';
+  static const String prefKeyAuthToken = 'auth_token';
+  static const String prefKeyLoggedIn = 'logged_in';
   
   // Animaciones
   static const Duration shortAnimation = Duration(milliseconds: 200);
@@ -61,6 +63,7 @@ class AppConstants {
 class AppRoutes {
   static const String splash = '/';
   static const String home = '/home';
+  static const String login = '/login';
   static const String chat = '/chat';
   static const String schedule = '/schedule';
   static const String calendar = '/calendar';

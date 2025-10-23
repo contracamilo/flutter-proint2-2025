@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/widgets/common_widgets.dart';
 
@@ -95,6 +97,18 @@ class _HomeView extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppColors.textSecondary,
                 ),
+          ),
+          const SizedBox(height: 24),
+          // CTA: Acceder con SSO
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: () => context.go(AppRoutes.login),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              child: const Text('Ingresar con Credenciales Institucionales (SSO)'),
+            ),
           ),
           const SizedBox(height: 24),
 
@@ -255,6 +269,24 @@ class _ProfileView extends StatelessWidget {
             title: const Text('Acerca de'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
+          ),
+        ),
+        const SizedBox(height: 8),
+        CustomCard(
+          child: ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Cerrar sesión'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () async {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.remove(AppConstants.prefKeyUserId);
+              await prefs.remove(AppConstants.prefKeyUserName);
+              await prefs.remove(AppConstants.prefKeyAuthToken);
+              await prefs.setBool(AppConstants.prefKeyLoggedIn, false);
+              if (context.mounted) {
+                context.go(AppRoutes.splash);
+              }
+            },
           ),
         ),
       ],

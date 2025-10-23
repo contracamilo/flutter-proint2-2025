@@ -18,7 +18,8 @@ class AppConfig {
       lineLength: 120,
       colors: true,
       printEmojis: true,
-      printTime: true,
+      // Reemplaza printTime (deprecated) por dateTimeFormat
+      dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
     ),
   );
 

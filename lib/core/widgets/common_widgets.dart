@@ -42,8 +42,8 @@ class ErrorWidget extends StatelessWidget {
   final VoidCallback? onRetry;
 
   const ErrorWidget({
-    super.key,
     required this.message,
+    super.key,
     this.onRetry,
   });
 
@@ -55,7 +55,7 @@ class ErrorWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.error_outline,
               size: 64,
               color: AppColors.error,
@@ -89,8 +89,8 @@ class EmptyStateWidget extends StatelessWidget {
   final String? actionLabel;
 
   const EmptyStateWidget({
-    super.key,
     required this.message,
+    super.key,
     this.icon,
     this.onAction,
     this.actionLabel,
@@ -140,8 +140,8 @@ class CustomCard extends StatelessWidget {
   final Color? color;
 
   const CustomCard({
-    super.key,
     required this.child,
+    super.key,
     this.padding,
     this.margin,
     this.onTap,

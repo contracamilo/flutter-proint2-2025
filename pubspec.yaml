@@ -32,7 +32,6 @@ dependencies:
   hive_flutter: ^1.1.0
   
   # HTTP & API calls
-  http: ^1.2.0
   dio: ^5.4.0
   
   # Utilidades
