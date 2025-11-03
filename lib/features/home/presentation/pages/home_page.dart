@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/common_widgets.dart';
 
-/// Página principal de JUANIA
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -14,59 +14,63 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _currentIndex = 0;
+  String _userName = '';
 
-  // Páginas de navegación (temporal)
-  static const List<Widget> _pages = <Widget>[
-    _HomeView(),
-    _ChatView(),
-    _ScheduleView(),
-    _ProfileView(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
 
-  void _onItemTapped(int index) {
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedIndex = index;
+      _userName = prefs.getString(AppConstants.prefKeyUserName) ?? 'Usuario';
     });
+  }
+
+  String _getInitials(String name) {
+    final trimmedName = name.trim();
+    if (trimmedName.isEmpty) return 'U';
+    final parts = trimmedName.split(' ').where((p) => p.isNotEmpty).toList();
+    if (parts.isEmpty) return 'U';
+    if (parts.length == 1) return parts[0][0].toUpperCase();
+    return '${parts[0][0]}${parts[parts.length - 1][0]}'.toUpperCase();
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> views = [
+      _HomeView(userName: _userName, initials: _getInitials(_userName)),
+      const _ChatView(),
+      const _ScheduleView(),
+      const _ProfileView(),
+    ];
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('JUANIA'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {
-              // TODO: Implementar notificaciones
-            },
-          ),
-        ],
-      ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: _onItemTapped,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
+      body: views[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
             label: 'Inicio',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.chat_outlined),
-            selectedIcon: Icon(Icons.chat),
-            label: 'Chat',
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.comments),
+            label: 'Chat IA',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.calendar_today_outlined),
-            selectedIcon: Icon(Icons.calendar_today),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
             label: 'Horario',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
             label: 'Perfil',
           ),
         ],
@@ -75,94 +79,96 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Vista de Inicio
-class _HomeView extends StatelessWidget {
-  const _HomeView();
+class _CustomHeader extends StatelessWidget {
+  final String userName;
+  final String initials;
+
+  const _CustomHeader({required this.userName, required this.initials});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppConstants.paddingM),
+    final firstName = userName.split(' ').first;
+    
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xFF1E3A8A),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+      ),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Saludo
-          Text(
-            '¡Hola, Estudiante! 👋',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Bienvenido a JUANIA, tu asistente universitario',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textSecondary,
-                ),
-          ),
-          const SizedBox(height: 24),
-          // CTA: Acceder con SSO
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: () => context.go(AppRoutes.login),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              child: const Text('Ingresar con Credenciales Institucionales (SSO)'),
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Accesos rápidos
-          Text(
-            'Accesos Rápidos',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 12),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 1.5,
+          Row(
             children: [
-              _QuickAccessCard(
-                icon: Icons.schedule,
-                title: 'Mi Horario',
-                color: AppColors.primary,
-                onTap: () {},
+              IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white),
+                onPressed: () {},
               ),
-              _QuickAccessCard(
-                icon: Icons.assignment,
-                title: 'Tareas',
-                color: AppColors.secondary,
-                onTap: () {},
+              const Spacer(),
+              Stack(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.notifications_outlined, color: Colors.white),
+                    onPressed: () {},
+                  ),
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 18,
+                        minHeight: 18,
+                      ),
+                      child: const Text(
+                        '3',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              _QuickAccessCard(
-                icon: Icons.book,
-                title: 'Materias',
-                color: AppColors.success,
-                onTap: () {},
-              ),
-              _QuickAccessCard(
-                icon: Icons.event,
-                title: 'Eventos',
-                color: AppColors.warning,
-                onTap: () {},
+              const SizedBox(width: 8),
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 20,
+                child: Text(
+                  initials,
+                  style: const TextStyle(
+                    color: Color(0xFF1E3A8A),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
-
-          // Próximas clases
+          const SizedBox(height: 16),
           Text(
-            'Próximas Clases',
-            style: Theme.of(context).textTheme.titleLarge,
+            'Hola, $firstName',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          const SizedBox(height: 12),
-          const EmptyStateWidget(
-            message: 'No hay clases programadas para hoy',
-            icon: Icons.event_available,
+          const Text(
+            '👋 Aquí está tu día',
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 16,
+            ),
           ),
         ],
       ),
@@ -170,123 +176,268 @@ class _HomeView extends StatelessWidget {
   }
 }
 
-// Vista de Chat
-class _ChatView extends StatelessWidget {
-  const _ChatView();
+class _HomeView extends StatelessWidget {
+  final String userName;
+  final String initials;
+
+  const _HomeView({required this.userName, required this.initials});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: EmptyStateWidget(
-        message: 'Inicia una conversación con JUANIA',
-        icon: Icons.chat_bubble_outline,
-        actionLabel: 'Nuevo Chat',
-      ),
-    );
-  }
-}
-
-// Vista de Horario
-class _ScheduleView extends StatelessWidget {
-  const _ScheduleView();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: EmptyStateWidget(
-        message: 'Configura tu horario académico',
-        icon: Icons.calendar_today_outlined,
-        actionLabel: 'Agregar Horario',
-      ),
-    );
-  }
-}
-
-// Vista de Perfil
-class _ProfileView extends StatelessWidget {
-  const _ProfileView();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(AppConstants.paddingM),
+    return Column(
       children: [
-        // Avatar y nombre
-        const Center(
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: AppColors.primary,
-                child: Icon(
-                  Icons.person,
-                  size: 50,
-                  color: AppColors.textOnPrimary,
-                ),
+        _CustomHeader(userName: userName, initials: initials),
+        Expanded(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
               ),
-              SizedBox(height: 16),
-              Text(
-                'Nombre del Estudiante',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Acceso rápido',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _QuickAccessCard(
+                          icon: FontAwesomeIcons.comments,
+                          label: 'Chat IA',
+                          color: Colors.blue,
+                          onTap: () {},
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _QuickAccessCard(
+                          icon: Icons.calendar_today,
+                          label: 'Horario',
+                          color: Colors.purple,
+                          onTap: () {},
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _QuickAccessCard(
+                          icon: Icons.school,
+                          label: 'Cursos',
+                          color: Colors.orange,
+                          onTap: () {},
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _QuickAccessCard(
+                          icon: Icons.lightbulb_outline,
+                          label: 'Recordar',
+                          color: Colors.green,
+                          onTap: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlue.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.lightbulb, color: Colors.blue, size: 32),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Tip de JuanIA',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Organiza tu tiempo con técnicas de estudio efectivas',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.arrow_forward_ios, size: 16),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Eventos Prioritarios',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.blue.shade300),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade100,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: const Text(
+                                'Siguiente clase',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade600,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: const Text(
+                                'En 25 min',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Cálculo Diferencial e Integral',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          '10:00 AM - Salón 302',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.red.shade300),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade100,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: const Text(
+                                'Tarea pendiente',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade600,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: const Text(
+                                'Urgente',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Entrega de Proyecto Final',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          'Vence: Hoy 11:59 PM',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 4),
-              Text(
-                'estudiante@universidad.edu.co',
-                style: TextStyle(
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 32),
-
-        // Opciones
-        CustomCard(
-          child: ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Configuración'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-        ),
-        const SizedBox(height: 8),
-        CustomCard(
-          child: ListTile(
-            leading: const Icon(Icons.help_outline),
-            title: const Text('Ayuda'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-        ),
-        const SizedBox(height: 8),
-        CustomCard(
-          child: ListTile(
-            leading: const Icon(Icons.info_outline),
-            title: const Text('Acerca de'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {},
-          ),
-        ),
-        const SizedBox(height: 8),
-        CustomCard(
-          child: ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Cerrar sesión'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.remove(AppConstants.prefKeyUserId);
-              await prefs.remove(AppConstants.prefKeyUserName);
-              await prefs.remove(AppConstants.prefKeyAuthToken);
-              await prefs.setBool(AppConstants.prefKeyLoggedIn, false);
-              if (context.mounted) {
-                context.go(AppRoutes.splash);
-              }
-            },
+            ),
           ),
         ),
       ],
@@ -294,38 +445,100 @@ class _ProfileView extends StatelessWidget {
   }
 }
 
-// Widget de tarjeta de acceso rápido
 class _QuickAccessCard extends StatelessWidget {
   final IconData icon;
-  final String title;
+  final String label;
   final Color color;
   final VoidCallback onTap;
 
   const _QuickAccessCard({
     required this.icon,
-    required this.title,
+    required this.label,
     required this.color,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return InkWell(
       onTap: onTap,
-      padding: const EdgeInsets.all(16),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: color, size: 32),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ChatView extends StatelessWidget {
+  const _ChatView();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: EmptyStateWidget(
+        icon: FontAwesomeIcons.comments,
+        message: 'Chat con IA próximamente',
+      ),
+    );
+  }
+}
+
+class _ScheduleView extends StatelessWidget {
+  const _ScheduleView();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: EmptyStateWidget(
+        icon: Icons.calendar_today,
+        message: 'Tu horario académico',
+      ),
+    );
+  }
+}
+
+class _ProfileView extends StatelessWidget {
+  const _ProfileView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 32,
-            color: color,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
+          const Icon(Icons.person, size: 64),
+          const SizedBox(height: 16),
+          const Text('Perfil de usuario'),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.clear();
+              if (context.mounted) {
+                context.go(AppRoutes.splash);
+              }
+            },
+            child: const Text('Cerrar Sesión'),
           ),
         ],
       ),
