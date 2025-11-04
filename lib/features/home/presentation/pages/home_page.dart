@@ -52,7 +52,14 @@ class _HomePageState extends State<HomePage> {
       body: views[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: (index) {
+          if (index == 1) {
+            // Navegar a la página de chat completa
+            context.push(AppRoutes.chat);
+          } else {
+            setState(() => _currentIndex = index);
+          }
+        },
         type: BottomNavigationBarType.fixed,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,
@@ -216,7 +223,7 @@ class _HomeView extends StatelessWidget {
                           icon: FontAwesomeIcons.comments,
                           label: 'Chat IA',
                           color: Colors.blue,
-                          onTap: () {},
+                          onTap: () => context.push(AppRoutes.chat),
                         ),
                       ),
                       const SizedBox(width: 12),

@@ -6,6 +6,7 @@ import 'core/constants/app_constants.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/splash_page.dart';
+import 'features/chat/presentation/pages/chat_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,10 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: AppRoutes.login,
           builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
+          path: AppRoutes.chat,
+          builder: (context, state) => const ChatPage(),
         ),
       ],
     );
