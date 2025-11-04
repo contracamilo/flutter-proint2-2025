@@ -10,6 +10,7 @@ JUANIA es un asistente inteligente diseñado específicamente para estudiantes u
 
 - [Características](#-características)
 - [Arquitectura](#-arquitectura)
+- [Documentación](#-documentación)
 - [Requisitos](#-requisitos)
 - [Instalación](#-instalación)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
@@ -64,7 +65,20 @@ lib/
 - **Mantenibilidad**: Código limpio y documentado
 - **Testeable**: Estructura que facilita pruebas unitarias
 
-## 📦 Requisitos
+## � Documentación
+
+Para información técnica detallada sobre la arquitectura, tecnologías y detalles de implementación del proyecto JUANIA, consulta la siguiente documentación:
+
+### 📖 Documentación Técnica Completa
+- **[Documentación Técnica](docs/TECHNICAL_DOCUMENTATION.md)** - Guía completa de arquitectura, tecnologías utilizadas, patrones de diseño, configuración, despliegue y mejores prácticas
+
+### 📋 Documentos Adicionales
+- **[Arquitectura del Sistema](docs/ARCHITECTURE.md)** - Diagrama y explicación detallada de la arquitectura
+- **[Mejores Prácticas](docs/BEST_PRACTICES.md)** - Guía de desarrollo y estándares de código
+- **[Resumen del Proyecto](docs/PROJECT_SUMMARY.md)** - Visión general y alcance del proyecto
+- **[Inicio Rápido](QUICKSTART.md)** - Guía para comenzar rápidamente con el desarrollo
+
+## �📦 Requisitos
 
 - **Flutter SDK**: 3.0.0 o superior
 - **Dart SDK**: 3.0.0 o superior
