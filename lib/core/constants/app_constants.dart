@@ -66,6 +66,7 @@ class AppRoutes {
   static const String login = '/login';
   static const String chat = '/chat';
   static const String schedule = '/schedule';
+  static const String courses = '/courses';
   static const String calendar = '/calendar';
   static const String tasks = '/tasks';
   static const String resources = '/resources';

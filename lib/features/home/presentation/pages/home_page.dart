@@ -244,7 +244,7 @@ class _HomeView extends StatelessWidget {
                           icon: Icons.school,
                           label: 'Cursos',
                           color: Colors.orange,
-                          onTap: () {},
+                          onTap: () => context.push(AppRoutes.courses),
                         ),
                       ),
                       const SizedBox(width: 12),

@@ -9,6 +9,7 @@ import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/splash_page.dart';
 import 'features/chat/presentation/pages/chat_page.dart';
 import 'features/schedule/presentation/pages/schedule_page.dart';
+import 'features/courses/presentation/pages/courses_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +51,10 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: AppRoutes.schedule,
           builder: (context, state) => const SchedulePage(),
+        ),
+        GoRoute(
+          path: AppRoutes.courses,
+          builder: (context, state) => const CoursesPage(),
         ),
       ],
     );
