@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'core/config/app_config.dart';
 import 'core/theme/app_theme.dart';
 import 'core/constants/app_constants.dart';
@@ -7,9 +8,13 @@ import 'features/home/presentation/pages/home_page.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/pages/splash_page.dart';
 import 'features/chat/presentation/pages/chat_page.dart';
+import 'features/schedule/presentation/pages/schedule_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Inicializar formateo de fechas para español
+  await initializeDateFormatting('es_ES', null);
   
   // Inicializar configuración
   await AppConfig.initialize();
@@ -41,6 +46,10 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: AppRoutes.chat,
           builder: (context, state) => const ChatPage(),
+        ),
+        GoRoute(
+          path: AppRoutes.schedule,
+          builder: (context, state) => const SchedulePage(),
         ),
       ],
     );

@@ -56,6 +56,9 @@ class _HomePageState extends State<HomePage> {
           if (index == 1) {
             // Navegar a la página de chat completa
             context.push(AppRoutes.chat);
+          } else if (index == 2) {
+            // Navegar a la página de horario completa
+            context.push(AppRoutes.schedule);
           } else {
             setState(() => _currentIndex = index);
           }
@@ -232,7 +235,7 @@ class _HomeView extends StatelessWidget {
                           icon: Icons.calendar_today,
                           label: 'Horario',
                           color: Colors.purple,
-                          onTap: () {},
+                          onTap: () => context.push(AppRoutes.schedule),
                         ),
                       ),
                       const SizedBox(width: 12),

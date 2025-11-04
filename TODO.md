@@ -36,12 +36,12 @@
 - [ ] Crear provider para estado del chat
 
 ### Gestión de Horarios
-- [ ] Crear modelo de clase
-- [ ] Implementar CRUD de clases
-- [ ] Crear vista semanal
-- [ ] Agregar vista diaria
-- [ ] Implementar colores por materia
-- [ ] Guardar en storage local
+- [x] Crear modelo de clase
+- [ ] Implementar CRUD de clases (create/edit/delete)
+- [x] Crear vista semanal
+- [x] Agregar vista diaria
+- [x] Implementar colores por materia
+- [ ] Guardar en storage local (Hive)
 - [ ] Agregar notificaciones de clases
 
 ### Gestión de Tareas

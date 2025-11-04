@@ -65,17 +65,21 @@ lib/
 - **Mantenibilidad**: Código limpio y documentado
 - **Testeable**: Estructura que facilita pruebas unitarias
 
-## � Documentación
+## 📋 Documentación
 
 Para información técnica detallada sobre la arquitectura, tecnologías y detalles de implementación del proyecto JUANIA, consulta la siguiente documentación:
 
 ### 📖 Documentación Técnica Completa
 - **[Documentación Técnica](docs/TECHNICAL_DOCUMENTATION.md)** - Guía completa de arquitectura, tecnologías utilizadas, patrones de diseño, configuración, despliegue y mejores prácticas
 
+### 🎯 Guías de Funcionalidades
+- **[Guía de Horario](SCHEDULE_GUIDE.md)** - Guía completa de la página de horario académico, incluyendo interfaz, funcionalidades y cómo usar
+
 ### 📋 Documentos Adicionales
 - **[Arquitectura del Sistema](docs/ARCHITECTURE.md)** - Diagrama y explicación detallada de la arquitectura
 - **[Mejores Prácticas](docs/BEST_PRACTICES.md)** - Guía de desarrollo y estándares de código
 - **[Resumen del Proyecto](docs/PROJECT_SUMMARY.md)** - Visión general y alcance del proyecto
+- **[Implementación de Schedule](docs/SCHEDULE_IMPLEMENTATION.md)** - Detalles técnicos de la implementación del módulo de horario
 - **[Inicio Rápido](QUICKSTART.md)** - Guía para comenzar rápidamente con el desarrollo
 
 ## �📦 Requisitos
