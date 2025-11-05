@@ -1,4 +1,4 @@
-# 🎓 JUANIA - Asistente Inteligente para Estudiantes Universitarios
+# 🎓 JUANIA - Asistente Inteligente para Estudiantes Universitarios.
 
 [![Flutter Version](https://img.shields.io/badge/Flutter-3.0%2B-blue.svg)](https://flutter.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
