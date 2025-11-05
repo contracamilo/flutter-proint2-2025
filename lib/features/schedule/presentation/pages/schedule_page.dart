@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../domain/entities/schedule_entity.dart';
 import '../widgets/horizontal_date_picker.dart';
 import '../widgets/schedule_event_card.dart';
+import '../../../../core/widgets/navigation/app_drawer.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -14,6 +15,7 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   late DateTime _selectedDate;
   int _selectedTabIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -150,6 +152,8 @@ class _SchedulePageState extends State<SchedulePage> {
     final events = _getFilteredEvents();
 
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const AppDrawer(),
       body: Column(
         children: [
           // Header con calendario
@@ -160,13 +164,13 @@ class _SchedulePageState extends State<SchedulePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Botón de regreso
+                  // Botón de menú
                   Padding(
                     padding: const EdgeInsets.only(left: 16, top: 8),
                     child: IconButton(
-                      onPressed: () => context.pop(),
+                      onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                       icon: const Icon(
-                        Icons.arrow_back,
+                        Icons.menu,
                         color: Colors.white,
                       ),
                     ),

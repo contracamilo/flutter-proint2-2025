@@ -10,6 +10,7 @@ import 'features/auth/presentation/pages/splash_page.dart';
 import 'features/chat/presentation/pages/chat_page.dart';
 import 'features/schedule/presentation/pages/schedule_page.dart';
 import 'features/courses/presentation/pages/courses_page.dart';
+import 'features/profile/presentation/pages/profile_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +57,26 @@ class MyApp extends StatelessWidget {
           path: AppRoutes.courses,
           builder: (context, state) => const CoursesPage(),
         ),
+        GoRoute(
+          path: AppRoutes.profile,
+          builder: (context, state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: AppRoutes.tasks,
+          builder: (context, state) => const _PlaceholderPage('Tareas'),
+        ),
+        GoRoute(
+          path: AppRoutes.resources,
+          builder: (context, state) => const _PlaceholderPage('Recursos'),
+        ),
+        GoRoute(
+          path: AppRoutes.settings,
+          builder: (context, state) => const _PlaceholderPage('Configuración'),
+        ),
+        GoRoute(
+          path: AppRoutes.about,
+          builder: (context, state) => const _PlaceholderPage('Acerca de'),
+        ),
       ],
     );
 
@@ -66,6 +87,42 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
       routerConfig: router,
+    );
+  }
+}
+
+class _PlaceholderPage extends StatelessWidget {
+  final String title;
+
+  const _PlaceholderPage(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF1e40af),
+        title: Text(title),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.construction, size: 64, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(
+              '$title - Próximamente',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

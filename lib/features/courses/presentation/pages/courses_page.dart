@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/course_entity.dart';
 import '../../data/models/course_model.dart';
 import '../widgets/course_card.dart';
+import '../../../../core/widgets/navigation/app_drawer.dart';
 
 class CoursesPage extends StatefulWidget {
   const CoursesPage({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class _CoursesPageState extends State<CoursesPage> {
   final TextEditingController _searchController = TextEditingController();
   String _selectedFilter = 'todos';
   String _selectedTag = 'todos';
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final List<CourseEntity> _allCourses = [
     const CourseModel(
@@ -172,6 +174,8 @@ class _CoursesPageState extends State<CoursesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
+      key: _scaffoldKey,
+      drawer: const AppDrawer(),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1e40af),
         elevation: 0,
@@ -185,7 +189,7 @@ class _CoursesPageState extends State<CoursesPage> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.white),
-          onPressed: () {},
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         actions: [
           Stack(
