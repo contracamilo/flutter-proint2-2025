@@ -357,7 +357,7 @@ Para dudas o sugerencias:
 ## 🙏 Agradecimientos
 
 - Flutter Team por el increíble framework
-- Comunidad open-source por las librerías utilizadas
+- Comunidad open-source por las librerías utilizadas.
 - Universidad por el apoyo al proyecto
 
 ---
