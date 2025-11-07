@@ -341,13 +341,16 @@ Ver [CONTRIBUTING.md](CONTRIBUTING.md) para más detalles.
 Este proyecto es software académico desarrollado en la Universidad. Ver el archivo [LICENSE](LICENSE) para más detalles.
 
 ## 👥 Equipo
-
-Proyecto desarrollado como parte del curso de Desarrollo Móvil.
+**Hecho con ❤️ por estudiantes, para estudiantes**.
+Emerson Tavera
+Karen Torres
+Daniel Charry
+Richard Caicedo
 
 ## 📞 Contacto
 
 Para dudas o sugerencias:
-- 📧 Email: [Tu email]
+- 📧 Email: crivera52@unisalle.edu.co
 - 🐛 Issues: [GitHub Issues](https://github.com/contracamilo/flutter-proint2-2025/issues)
 
 ---
@@ -362,4 +365,4 @@ Para dudas o sugerencias:
 
 ---
 
-**Hecho con ❤️ por estudiantes, para estudiantes**.
+
