@@ -362,4 +362,4 @@ Para dudas o sugerencias:
 
 ---
 
-**Hecho con ❤️ por estudiantes, para estudiantes**
+**Hecho con ❤️ por estudiantes, para estudiantes**.
